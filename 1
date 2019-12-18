@@ -1,0 +1,187 @@
+##Change Every Month to New Folder and CSV File##
+
+setwd("S:/Indiana Research & Evaluation/HRSA Healthy Start/Monthly Client-Level Data - HSMED/November 2019")
+hrsa = read.csv("Nov2019Data.csv", header = TRUE)
+head(hrsa)
+attach(hrsa)
+
+#Download Packages
+library(lubridate)
+library(tidyverse)
+library(tidyr)
+
+
+#Step 1: Preconception Tool Recodes
+PreconceptionRecodes = hrsa %>%
+  mutate(admindate3 = mdy(admindate3)) %>%
+  subset(admindate3 >= "2019-11-01" & admindate3 <= "2019-11-30") %>%
+  mutate(concernhousinglist___1 = recode(concernhousinglist___1, '1' = "1", '0' = "0")) %>%
+  mutate(concernhousinglist___2 = recode(concernhousinglist___2, '1' = "2", '0' = "0")) %>%
+  mutate(concernhousinglist___3 = recode(concernhousinglist___3, '1' = "3", '0' = "0")) %>%
+  mutate(concernhousinglist___4 = recode(concernhousinglist___4, '1' = "4", '0' = "0")) %>%
+  mutate(concernhousinglist___5 = recode(concernhousinglist___5, '1' = "5", '0' = "0")) %>%
+  mutate(concernhousinglist___6 = recode(concernhousinglist___6, '1' = "6", '0' = "0")) %>%
+  mutate(concernhousinglist___7 = recode(concernhousinglist___7, '1' = "7", '0' = "0")) %>%
+  mutate(concernhousinglist___8 = recode(concernhousinglist___8, '1' = "8", '0' = "0")) %>%
+  mutate(concernhousinglist___9 = recode(concernhousinglist___9, '1' = "9", '0' = "0")) %>%
+  mutate(concernhousinglist___10 = recode(concernhousinglist___10, '1' = "10", '0' = "0")) %>%
+  mutate(concernhousinglist___11 = recode(concernhousinglist___11, '1' = "11", '0' = "0")) %>%
+  mutate(concernhousinglist___12 = recode(concernhousinglist___12, '1' = "12", '0' = "0")) %>%
+  mutate(concernhousinglist___13 = recode(concernhousinglist___13, '1' = "13", '0' = "0")) %>%
+  mutate(concernhousinglist___14 = recode(concernhousinglist___14, '1' = "14", '0' = "0")) %>%
+  mutate(concernhousinglist___15 = recode(concernhousinglist___15, '1' = "15", '0' = "0")) %>%
+  unite(col = ConcernHousingIds_Preconception, concernhousinglist___1, concernhousinglist___2, concernhousinglist___3, concernhousinglist___4, concernhousinglist___5, concernhousinglist___6, concernhousinglist___7, concernhousinglist___8, concernhousinglist___9, concernhousinglist___10, concernhousinglist___11, concernhousinglist___12, concernhousinglist___13, concernhousinglist___14, concernhousinglist___15, sep = ",") %>%
+  mutate(fuserviceinfogivenlist___1 = recode(fuserviceinfogivenlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___2 = recode(fuserviceinfogivenlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___3 = recode(fuserviceinfogivenlist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___4 = recode(fuserviceinfogivenlist___4, '1' = "4", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___5 = recode(fuserviceinfogivenlist___5, '1' = "5", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___6 = recode(fuserviceinfogivenlist___6, '1' = "6", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___7 = recode(fuserviceinfogivenlist___7, '1' = "7", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___8 = recode(fuserviceinfogivenlist___8, '1' = "8", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___9 = recode(fuserviceinfogivenlist___9, '1' = "9", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___10 = recode(fuserviceinfogivenlist___10, '1' = "10", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___11 = recode(fuserviceinfogivenlist___11, '1' = "11", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___12 = recode(fuserviceinfogivenlist___12, '1' = "12", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___13 = recode(fuserviceinfogivenlist___13, '1' = "13", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___14 = recode(fuserviceinfogivenlist___14, '1' = "14", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___15 = recode(fuserviceinfogivenlist___15, '1' = "15", '0' = "0")) %>%
+  mutate(fuserviceinfogivenlist___16 = recode(fuserviceinfogivenlist___16, '1' = "16", '0' = "0")) %>%
+  unite(col = FUServiceInfoGivenIds_Preconception, fuserviceinfogivenlist___1, fuserviceinfogivenlist___2, fuserviceinfogivenlist___3, fuserviceinfogivenlist___4, fuserviceinfogivenlist___5, fuserviceinfogivenlist___6, fuserviceinfogivenlist___7, fuserviceinfogivenlist___8, fuserviceinfogivenlist___9, fuserviceinfogivenlist___10, fuserviceinfogivenlist___11, fuserviceinfogivenlist___12, fuserviceinfogivenlist___13, fuserviceinfogivenlist___14, fuserviceinfogivenlist___15, fuserviceinfogivenlist___16, sep = ",") %>%
+  mutate(fuservicereferrallist___1 = recode(fuservicereferrallist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fuservicereferrallist___2 = recode(fuservicereferrallist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fuservicereferrallist___3 = recode(fuservicereferrallist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fuservicereferrallist___4 = recode(fuservicereferrallist___4, '1' = "4", '0' = "0")) %>%
+  mutate(fuservicereferrallist___5 = recode(fuservicereferrallist___5, '1' = "5", '0' = "0")) %>%
+  mutate(fuservicereferrallist___6 = recode(fuservicereferrallist___6, '1' = "6", '0' = "0")) %>%
+  mutate(fuservicereferrallist___7 = recode(fuservicereferrallist___7, '1' = "7", '0' = "0")) %>%
+  mutate(fuservicereferrallist___8 = recode(fuservicereferrallist___8, '1' = "8", '0' = "0")) %>%
+  mutate(fuservicereferrallist___9 = recode(fuservicereferrallist___9, '1' = "9", '0' = "0")) %>%
+  mutate(fuservicereferrallist___10 = recode(fuservicereferrallist___10, '1' = "10", '0' = "0")) %>%
+  mutate(fuservicereferrallist___11 = recode(fuservicereferrallist___11, '1' = "11", '0' = "0")) %>%
+  mutate(fuservicereferrallist___12 = recode(fuservicereferrallist___12, '1' = "12", '0' = "0")) %>%
+  mutate(fuservicereferrallist___13 = recode(fuservicereferrallist___13, '1' = "13", '0' = "0")) %>%
+  mutate(fuservicereferrallist___14 = recode(fuservicereferrallist___14, '1' = "14", '0' = "0")) %>%
+  mutate(fuservicereferrallist___15 = recode(fuservicereferrallist___15, '1' = "15", '0' = "0")) %>%
+  mutate(fuservicereferrallist___16 = recode(fuservicereferrallist___16, '1' = "16", '0' = "0")) %>%
+  unite(col = FUServiceReferralIds_Preconception, fuservicereferrallist___1, fuservicereferrallist___2, fuservicereferrallist___3, fuservicereferrallist___4, fuservicereferrallist___5, fuservicereferrallist___6, fuservicereferrallist___7, fuservicereferrallist___8, fuservicereferrallist___9, fuservicereferrallist___10, fuservicereferrallist___11, fuservicereferrallist___12, fuservicereferrallist___13, fuservicereferrallist___14, fuservicereferrallist___15, fuservicereferrallist___16, sep = ",") %>%
+  mutate(healthinsurancetypeslist___1 = recode(healthinsurancetypeslist___1, '1' = "1", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___2 = recode(healthinsurancetypeslist___2, '1' = "2", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___3 = recode(healthinsurancetypeslist___3, '1' = "3", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___4 = recode(healthinsurancetypeslist___4, '1' = "4", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___5 = recode(healthinsurancetypeslist___5, '1' = "5", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___6 = recode(healthinsurancetypeslist___6, '1' = "6", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___7 = recode(healthinsurancetypeslist___7, '1' = "7", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___8 = recode(healthinsurancetypeslist___8, '1' = "8", '0' = "0")) %>%
+  mutate(healthinsurancetypeslist___9 = recode(healthinsurancetypeslist___9, '1' = "9", '0' = "0")) %>%
+  unite(col = HealthInsuranceTypesIds_Preconception, healthinsurancetypeslist___1, healthinsurancetypeslist___2, healthinsurancetypeslist___3, healthinsurancetypeslist___4, healthinsurancetypeslist___5, healthinsurancetypeslist___6, healthinsurancetypeslist___7, healthinsurancetypeslist___8, healthinsurancetypeslist___9, sep = ",") %>%
+  mutate(medicalconditionspast6monthslist___1 = recode(medicalconditionspast6monthslist___1, '1' = "1", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___2 = recode(medicalconditionspast6monthslist___2, '1' = "2", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___3 = recode(medicalconditionspast6monthslist___3, '1' = "3", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___4 = recode(medicalconditionspast6monthslist___4, '1' = "4", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___5 = recode(medicalconditionspast6monthslist___5, '1' = "5", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___6 = recode(medicalconditionspast6monthslist___6, '1' = "6", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___7 = recode(medicalconditionspast6monthslist___7, '1' = "7", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___8 = recode(medicalconditionspast6monthslist___8, '1' = "8", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___9 = recode(medicalconditionspast6monthslist___9, '1' = "9", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___10 = recode(medicalconditionspast6monthslist___10, '1' = "10", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___11 = recode(medicalconditionspast6monthslist___11, '1' = "11", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___12 = recode(medicalconditionspast6monthslist___12, '1' = "12", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___13 = recode(medicalconditionspast6monthslist___13, '1' = "13", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___14 = recode(medicalconditionspast6monthslist___14, '1' = "14", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___15 = recode(medicalconditionspast6monthslist___15, '1' = "15", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___16 = recode(medicalconditionspast6monthslist___16, '1' = "16", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___17 = recode(medicalconditionspast6monthslist___17, '1' = "17", '0' = "0")) %>%
+  mutate(medicalconditionspast6monthslist___18 = recode(medicalconditionspast6monthslist___18, '1' = "18", '0' = "0")) %>%
+  unite(col = MedicalConditionsPast6MonthsIds_Preconception, medicalconditionspast6monthslist___1, medicalconditionspast6monthslist___2, medicalconditionspast6monthslist___3, medicalconditionspast6monthslist___4, medicalconditionspast6monthslist___5, medicalconditionspast6monthslist___6, medicalconditionspast6monthslist___7, medicalconditionspast6monthslist___8, medicalconditionspast6monthslist___9, medicalconditionspast6monthslist___10, medicalconditionspast6monthslist___11, medicalconditionspast6monthslist___12, medicalconditionspast6monthslist___13, medicalconditionspast6monthslist___14, medicalconditionspast6monthslist___15, medicalconditionspast6monthslist___16, medicalconditionspast6monthslist___17, medicalconditionspast6monthslist___18, sep = ",") %>%
+  mutate(fuhealthstatusinfolist___1 = recode(fuhealthstatusinfolist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___2 = recode(fuhealthstatusinfolist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___3 = recode(fuhealthstatusinfolist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___4 = recode(fuhealthstatusinfolist___4, '1' = "4", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___5 = recode(fuhealthstatusinfolist___5, '1' = "5", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___6 = recode(fuhealthstatusinfolist___6, '1' = "6", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___7 = recode(fuhealthstatusinfolist___7, '1' = "7", '0' = "0")) %>%
+  mutate(fuhealthstatusinfolist___8 = recode(fuhealthstatusinfolist___8, '1' = "8", '0' = "0")) %>%
+  unite(col = FUHealthStatusInfoIds_Preconception, fuhealthstatusinfolist___1, fuhealthstatusinfolist___2, fuhealthstatusinfolist___3, fuhealthstatusinfolist___4, fuhealthstatusinfolist___5, fuhealthstatusinfolist___6, fuhealthstatusinfolist___7, fuhealthstatusinfolist___8, sep = ",") %>%
+  mutate(fuhealthstatusprovidedlist___1 = recode(fuhealthstatusprovidedlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fuhealthstatusprovidedlist___2 = recode(fuhealthstatusprovidedlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fuhealthstatusprovidedlist___3 = recode(fuhealthstatusprovidedlist___3, '1' = "3", '0' = "0")) %>%
+  unite(col = FUHealthStatusProvidedIds_Preconception, fuhealthstatusprovidedlist___1, fuhealthstatusprovidedlist___2, fuhealthstatusprovidedlist___3, sep = ",") %>%
+  mutate(fuhealthstatusreferredlist___1 = recode(fuhealthstatusreferredlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fuhealthstatusreferredlist___2 = recode(fuhealthstatusreferredlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fuhealthstatusreferredlist___3 = recode(fuhealthstatusreferredlist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fuhealthstatusreferredlist___4 = recode(fuhealthstatusreferredlist___4, '1' = "4", '0' = "0")) %>%
+  unite(col = FUHealthStatusReferredIds_Preconception, fuhealthstatusreferredlist___1, fuhealthstatusreferredlist___2, fuhealthstatusreferredlist___3, fuhealthstatusreferredlist___4, sep = ",") %>%
+  mutate(fumentalconditionreferredlist___1 = recode(fumentalconditionreferredlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fumentalconditionreferredlist___2 = recode(fumentalconditionreferredlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fumentalconditionreferredlist___3 = recode(fumentalconditionreferredlist___3, '1' = "3", '0' = "0")) %>%
+  unite(col = FUMentalConditionReferredIds_Preconception, fumentalconditionreferredlist___1, fumentalconditionreferredlist___2, fumentalconditionreferredlist___3, sep = ",") %>%
+  mutate(fusubstanceuseprovidedanplist___1 = recode(fusubstanceuseprovidedanplist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fusubstanceuseprovidedanplist___2 = recode(fusubstanceuseprovidedanplist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fusubstanceuseprovidedanplist___3 = recode(fusubstanceuseprovidedanplist___3, '1' = "3", '0' = "0")) %>%
+  unite(col = FUSubstanceUseProvidedANPIds_Preconception, fusubstanceuseprovidedanplist___1, fusubstanceuseprovidedanplist___2, fusubstanceuseprovidedanplist___3, sep = ",") %>%
+  mutate(fusubstanceusereferredlist___1 = recode(fusubstanceusereferredlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fusubstanceusereferredlist___2 = recode(fusubstanceusereferredlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fusubstanceusereferredlist___3 = recode(fusubstanceusereferredlist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fusubstanceusereferredlist___4 = recode(fusubstanceusereferredlist___4, '1' = "4", '0' = "0")) %>%
+  mutate(fusubstanceusereferredlist___5 = recode(fusubstanceusereferredlist___5, '1' = "5", '0' = "0")) %>%
+  unite(col = FUSubstanceUseReferredIds_Preconception, fusubstanceusereferredlist___1, fusubstanceusereferredlist___2, fusubstanceusereferredlist___3, fusubstanceusereferredlist___4, fusubstanceusereferredlist___5, sep = ",") %>%
+  mutate(fupersonalsafetyinfolist___1 = recode(fupersonalsafetyinfolist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fupersonalsafetyinfolist___2 = recode(fupersonalsafetyinfolist___2, '1' = "2", '0' = "0")) %>%
+  unite(col = FUPersonalSafetyInfoIds_Preconception, fupersonalsafetyinfolist___1, fupersonalsafetyinfolist___2, sep = ",") %>%
+  mutate(countonsupportlist___1 = recode(countonsupportlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(countonsupportlist___2 = recode(countonsupportlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(countonsupportlist___3 = recode(countonsupportlist___3, '1' = "3", '0' = "0")) %>%
+  mutate(countonsupportlist___4 = recode(countonsupportlist___4, '1' = "4", '0' = "0")) %>%
+  mutate(countonsupportlist___5 = recode(countonsupportlist___5, '1' = "5", '0' = "0")) %>%
+  mutate(countonsupportlist___6 = recode(countonsupportlist___6, '1' = "6", '0' = "0")) %>%
+  mutate(countonsupportlist___7 = recode(countonsupportlist___7, '1' = "7", '0' = "0")) %>%
+  mutate(countonsupportlist___8 = recode(countonsupportlist___8, '1' = "8", '0' = "0")) %>%
+  mutate(countonsupportlist___9 = recode(countonsupportlist___9, '1' = "9", '0' = "0")) %>%
+  unite(col = CountOnSupportIds_Preconception, countonsupportlist___1, countonsupportlist___2, countonsupportlist___3, countonsupportlist___4, countonsupportlist___5, countonsupportlist___6, countonsupportlist___7, countonsupportlist___8, countonsupportlist___9, sep = ",") %>%
+  mutate(fusupportreferredlist___1 = recode(fusupportreferredlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fusupportreferredlist___2 = recode(fusupportreferredlist___2, '1' = "2", '0' = "0")) %>%
+  mutate(fusupportreferredlist___3 = recode(fusupportreferredlist___3, '1' = "3", '0' = "0")) %>%
+  mutate(fusupportreferredlist___4 = recode(fusupportreferredlist___4, '1' = "4", '0' = "0")) %>%
+  unite(col = FUSupportReferredIds_Preconception, fusupportreferredlist___1, fusupportreferredlist___2, fusupportreferredlist___3, fusupportreferredlist___4, sep = ",") %>%
+  mutate(fubirthcontrolprovidedlist___1 = recode(fubirthcontrolprovidedlist___1, '1' = "1", '0' = "0")) %>%
+  mutate(fubirthcontrolprovidedlist___2 = recode(fubirthcontrolprovidedlist___2, '1' = "2", '0' = "0")) %>%
+  unite(col = FUBirthControlProvidedIds_Preconception, fubirthcontrolprovidedlist___1, fubirthcontrolprovidedlist___2, sep = ",") %>%
+  mutate(activeclient2019 = recode(activeclient2019, '1' = "2019", '0' = "0", .missing = "0")) %>%
+  mutate(activeclient2020 = recode(activeclient2020, '1' = "2020", '0' = "0", .missing = "0")) %>%
+  mutate(activeclient2021 = recode(activeclient2021, '1' = "2021", '0' = "0", .missing = "0")) %>%
+  mutate(activeclient2022 = recode(activeclient2022, '1' = "2022", '0' = "0", .missing = "0")) %>%
+  mutate(activeclient2023 = recode(activeclient2023, '1' = "2023", '0' = "0", .missing = "0")) %>%
+  mutate(activeclient2024 = recode(activeclient2024, '1' = "2024", '0' = "0", .missing = "0")) %>%
+  unite(col = ActiveClient, activeclient2019, activeclient2020, activeclient2021, activeclient2022, activeclient2023, activeclient2024, sep = ";")
+
+attach(PreconceptionRecodes)
+
+PreconceptionRecodes$ConcernHousingIds_Preconception = str_remove_all(ConcernHousingIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUServiceInfoGivenIds_Preconception = str_remove_all(FUServiceInfoGivenIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUServiceReferralIds_Preconception = str_remove_all(FUServiceReferralIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$HealthInsuranceTypesIds_Preconception = str_remove_all(HealthInsuranceTypesIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$MedicalConditionsPast6MonthsIds_Preconception = str_remove_all(MedicalConditionsPast6MonthsIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUHealthStatusInfoIds_Preconception = str_remove_all(FUHealthStatusInfoIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUHealthStatusProvidedIds_Preconception = str_remove_all(FUHealthStatusProvidedIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUHealthStatusReferredIds_Preconception = str_remove_all(FUHealthStatusReferredIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUMentalConditionReferredIds_Preconception = str_remove_all(FUMentalConditionReferredIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUSubstanceUseProvidedANPIds_Preconception = str_remove_all(FUSubstanceUseProvidedANPIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUSubstanceUseReferredIds_Preconception = str_remove_all(FUSubstanceUseReferredIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUPersonalSafetyInfoIds_Preconception = str_remove_all(FUPersonalSafetyInfoIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$CountOnSupportIds_Preconception = str_remove_all(CountOnSupportIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUSupportReferredIds_Preconception = str_remove_all(FUSupportReferredIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$FUBirthControlProvidedIds_Preconception = str_remove_all(FUBirthControlProvidedIds_Preconception, ",0|0,|0")
+PreconceptionRecodes$ActiveClient = str_remove_all(ActiveClient, ";0|0;|;0;")
+
+PreconceptionRecodes$admindate3 = format(strptime(admindate3, format = "%Y-%m-%d"), "%m/%d/%Y")
+
+
+PreconceptionTemplate1 = subset(PreconceptionRecodes, select = c(clientuniqueidentification, consentflag, admindate3, maritalstatusid, employmentstatusid, householdincomeid, numadultssupported, numchildrensupported, incomesupporteddrid, foodaffordabilityid, zipcode2, zipcodedrid, housingstatusid, housingstatusother, isregularhomeid, hashousingarrangementid, hashousingarrangementother, hashousingconcernid, ConcernHousingIds_Preconception, otherleaseviolation, otherhousingconcern, servicechildcarevoucherid, serviceelderlydisablechildrenid, servicefoodstampsid, serviceheatingassistanceid, serviceimmigrationid, servicelegalid, servicepublichousingid, servicesection8voucherid, servicessdiid, servicessiid, servicetafdcid, servicetanfid, servicetribalhousingid, serviceutilityassistanceid, servicewicid, serviceotherid, serviceotherspecifying, FUServiceInfoGivenIds_Preconception, fuserviceinfogivenother, fuserviceinfogivendate, FUServiceReferralIds_Preconception, fuservicereferralother, fuservicereferraldate, neighborshelpid, neighborswatchchildrenid, communityfeelsafeid, participatecommunityactivitiesid, neighborsgatheringid, havehealthprofessionalid, havesickcareplaceid, sickcareplaceid, HealthInsuranceTypesIds_Preconception, healthinsurancetypesother, havepreventivecarelast12monthsid, physicalhealthstatusid, mentalhealthstatusid, heightfeetmeasure, heightinchesmeasure, heightfeetinchesmeasuredrid, weightmeasure, weightmeasuredrid, detectedasthmaid, haveasthmaid, detectedautoimmunediseaseid, haveautoimmunediseaseid, detectedcancerid, hascancerid, detectedcardiovasculardiseaseid, havecardiovasculardiseaseid, detectedmentalhealthconditionsid, havementalhealthconditionsid, detecteddiabetesid, havediabetesid, detectedeatingdisordersid, haveeatingdisordersid, detectedhighbloodpressureid, havehighbloodpressureid, detectedanemiaid, haveanemiaid, detectedpkuid, havepkuid, detectedrenaldiseaseid, haverenaldiseaseid, detectedepilepsyid, haveepilepsyid, detectedsicklecellid, havesicklecellid, detectedthrombophiliaid, havethrombophiliaid, detectedthyroiddiseaseid, havethyroiddiseaseid, othermedicalconditions, haveothermedicalconditionsid, MedicalConditionsPast6MonthsIds_Preconception, havingpainid, aretakingpainmedicationsid, aretakingbloodthinnersid, aretakingmalehormonesid, aretakingantibioticsid, aretakingepilepsymedicationsid, aretakingacnemedicationsid, aretakinghighbloodpressuremedicationsid, aretakinghighcholesterolmedicationsid))
+
+PreconceptionTemplate2 = subset(PreconceptionRecodes, select = c(aretakingantidepressantsid, providerknowmedicationsid, vitaminperweekid, lastfluvaccinationid, receivedvaccinesmmrid, testedformmrid, receivedvaccineshepatitisbid, receivedvaccines3shotsgardasilid, hadchickenpoxorshinglesid, receivedvaccines2dosesvaricellaid, receivedvaccinestdapid, lasttestedchlamydiaid, lasttestedgonorrheaid, lasttestedherpessimplexid, lasttestedhivid, lasttestedsyphilisid, lasttestedstdotherid, lasttestedstdotherspecifying, diagnosedtoxoplasmosisid, diagnosedtuberculosisid, diagnosedcytomegalovirusid, diagnosedhepatitisbcid, diagnosedzikaid, diagnosedchlamydiaid, diagnosedgonorrheaid, diagnosedherpessimplexid, diagnosedhivid, diagnosedsyphilisid, diagnosedotherid, diagnosedotherspecifying, past12monthsusedcondomid, lastteethcleaningid, FUHealthStatusInfoIds_Preconception, fuhealthstatusinfodate, FUHealthStatusProvidedIds_Preconception, fuhealthstatusprovidedother, fuhealthstatusprovideddate, FUHealthStatusReferredIds_Preconception, fuhealthstatusreferredother, fuhealthstatusreferreddate, littleinterest, depressed, fumentalconditiondepressioninfo, fumentalconditiondepressioninfodate, fumentalconditiondepressionscreening, fumentalconditiondepressionscreeningdate, fumentalconditionprovidedcounseling, fumentalconditionprovidedcounselingdate, FUMentalConditionReferredIds_Preconception, fumentalconditionreferredother, fumentalconditionreferreddate, substanceusealcoholid, substanceusetobaccoid, substanceusemoodalteringid, substanceuseprescriptiondrugsfornonmedicalid, substanceuseillegaldrugsid, householdsmokingruleid, fusubstanceuseinfolist, fusubstanceuseinfodate, FUSubstanceUseProvidedANPIds_Preconception, fusubstanceuseprovideddate, FUSubstanceUseReferredIds_Preconception, fusubstanceusereferredother, fusubstanceusereferreddate, personalsafetyspousethreatenid, personalsafetyspouseangerid, personalsafetyspousecontrolid, 	personalsafetyspousephysicalabusedid, personalsafetyspouseforcesexid, personalsafetyspousephysicalanyid, havegunid, FUPersonalSafetyInfoIds_Preconception, fupersonalsafetyinfodate, fupersonalsafetyreferred, fupersonalsafetyreferredprogram, fupersonalsafetyreferreddate, stressfactorfamilysickid, stressfactordivorcedid, stressfactorrelocationid, stressfactorhomelessid, stressfactorspouselostjobid, stressfactorlostjobid, stressfactorpaycutid, stressfactorspouseapartid, stressfactorspouseargueid, stressfactorspouseagainstpregnancyid, stressfactorbillsid, stressfactorjailedid, stressfactorrelativesdrinkingid, stressfactorrelativedieid, discriminationtreatedlesscourtesyid, discriminationreceivedpoorserviceid, discriminationotherthinknotsmartid, discriminationotherafraidid, discriminationotherthreatenid, discriminationreasonsfortreatmentid, otherreasons, supporttemporaryfinancialid, supportenjoyableactivitiesid, supporthelpchoresid, supportwhensickid, supporthelppersonalissuesid, CountOnSupportIds_Preconception, countonsupportother, fusupportinfo, fusupportinfodate, FUSupportReferredIds_Preconception, fusupportreferredother, fusupportreferreddate, planhavechildrenid, planhavechildrencount, planhavechildrendrid, likepregnantnextyearid, waittimepregnantid, usebirthcontrolsid, satisfiedbirthcontrolid, fubirthcontrolinfo, fubirthcontrolinfodate, FUBirthControlProvidedIds_Preconception, fubirthcontrolprovideddate, fubirthcontrolreferredid, fuotherbirthcontrol, fubirthcontrolreferreddate))
+
+PreconceptionTemplateFinal = data.frame(PreconceptionTemplate1, PreconceptionTemplate2)
+
+#Export Preconception Template
+write.csv(PreconceptionTemplateFinal, file = "PreconceptionTemplateFinal.csv", na = "")
