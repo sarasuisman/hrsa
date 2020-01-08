@@ -155,7 +155,11 @@ PreconceptionRecodes = hrsa %>%
   mutate(activeclient2024 = recode(activeclient2024, '1' = "2024", '0' = "0", .missing = "0")) %>%
   unite(col = ActiveClient, activeclient2019, activeclient2020, activeclient2021, activeclient2022, activeclient2023, activeclient2024, sep = ";")
 
+#Step 2: Attach new dataset to call without dollarsign
+
 attach(PreconceptionRecodes)
+
+#Step 3: Removes unneeded zeros and commas
 
 PreconceptionRecodes$ConcernHousingIds_Preconception = str_remove_all(ConcernHousingIds_Preconception, ",0|0,|0")
 PreconceptionRecodes$FUServiceInfoGivenIds_Preconception = str_remove_all(FUServiceInfoGivenIds_Preconception, ",0|0,|0")
@@ -174,7 +178,13 @@ PreconceptionRecodes$FUSupportReferredIds_Preconception = str_remove_all(FUSuppo
 PreconceptionRecodes$FUBirthControlProvidedIds_Preconception = str_remove_all(FUBirthControlProvidedIds_Preconception, ",0|0,|0")
 PreconceptionRecodes$ActiveClient = str_remove_all(ActiveClient, ";0|0;|;0;")
 
+
+#Step 4: Formats dates correctly
+
 PreconceptionRecodes$admindate3 = format(strptime(admindate3, format = "%Y-%m-%d"), "%m/%d/%Y")
+
+
+#Step 5: Creates dataframe in necessary HRSA Template format
 
 
 PreconceptionTemplate1 = subset(PreconceptionRecodes, select = c(clientuniqueidentification, consentflag, admindate3, maritalstatusid, employmentstatusid, householdincomeid, numadultssupported, numchildrensupported, incomesupporteddrid, foodaffordabilityid, zipcode2, zipcodedrid, housingstatusid, housingstatusother, isregularhomeid, hashousingarrangementid, hashousingarrangementother, hashousingconcernid, ConcernHousingIds_Preconception, otherleaseviolation, otherhousingconcern, servicechildcarevoucherid, serviceelderlydisablechildrenid, servicefoodstampsid, serviceheatingassistanceid, serviceimmigrationid, servicelegalid, servicepublichousingid, servicesection8voucherid, servicessdiid, servicessiid, servicetafdcid, servicetanfid, servicetribalhousingid, serviceutilityassistanceid, servicewicid, serviceotherid, serviceotherspecifying, FUServiceInfoGivenIds_Preconception, fuserviceinfogivenother, fuserviceinfogivendate, FUServiceReferralIds_Preconception, fuservicereferralother, fuservicereferraldate, neighborshelpid, neighborswatchchildrenid, communityfeelsafeid, participatecommunityactivitiesid, neighborsgatheringid, havehealthprofessionalid, havesickcareplaceid, sickcareplaceid, HealthInsuranceTypesIds_Preconception, healthinsurancetypesother, havepreventivecarelast12monthsid, physicalhealthstatusid, mentalhealthstatusid, heightfeetmeasure, heightinchesmeasure, heightfeetinchesmeasuredrid, weightmeasure, weightmeasuredrid, detectedasthmaid, haveasthmaid, detectedautoimmunediseaseid, haveautoimmunediseaseid, detectedcancerid, hascancerid, detectedcardiovasculardiseaseid, havecardiovasculardiseaseid, detectedmentalhealthconditionsid, havementalhealthconditionsid, detecteddiabetesid, havediabetesid, detectedeatingdisordersid, haveeatingdisordersid, detectedhighbloodpressureid, havehighbloodpressureid, detectedanemiaid, haveanemiaid, detectedpkuid, havepkuid, detectedrenaldiseaseid, haverenaldiseaseid, detectedepilepsyid, haveepilepsyid, detectedsicklecellid, havesicklecellid, detectedthrombophiliaid, havethrombophiliaid, detectedthyroiddiseaseid, havethyroiddiseaseid, othermedicalconditions, haveothermedicalconditionsid, MedicalConditionsPast6MonthsIds_Preconception, havingpainid, aretakingpainmedicationsid, aretakingbloodthinnersid, aretakingmalehormonesid, aretakingantibioticsid, aretakingepilepsymedicationsid, aretakingacnemedicationsid, aretakinghighbloodpressuremedicationsid, aretakinghighcholesterolmedicationsid))
@@ -183,5 +193,6 @@ PreconceptionTemplate2 = subset(PreconceptionRecodes, select = c(aretakingantide
 
 PreconceptionTemplateFinal = data.frame(PreconceptionTemplate1, PreconceptionTemplate2)
 
-#Export Preconception Template
+#Step 6: Export Finalized Preconception Template
+
 write.csv(PreconceptionTemplateFinal, file = "PreconceptionTemplateFinal.csv", na = "")
